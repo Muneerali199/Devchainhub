@@ -204,7 +204,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t text-center text-muted-foreground text-sm">
-            <p>© {new Date().getFullYear()} BlockDev Platform. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} DevChainHub. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -22,23 +22,20 @@ declare global {
   }
 }
 
-// Define a compatible ABI type that matches ethers.js expectations
-type CompatibleAbi = Array<{
-  type: string;
-  name?: string;
-  inputs?: Array<{
-    name: string;
-    type: string;
-    internalType?: string;
-  }>;
-  outputs?: Array<{
-    name: string;
-    type: string;
-    internalType?: string;
-  }>;
-  stateMutability?: string;
-  anonymous?: boolean;
-}>;
+// Type for ethers-compatible ABI
+type EthersAbi = ReadonlyArray<ethers.Fragment | string | ethers.JsonFragment>;
+
+// Helper function to convert AbiFunction to ethers-compatible ABI
+const convertAbiToEthers = (abi: AbiFunction[]): EthersAbi => {
+  return abi.map(item => {
+    const converted: any = {...item};
+    // Convert numeric values to strings
+    if (typeof converted.gas === 'number') {
+      converted.gas = converted.gas.toString();
+    }
+    return converted;
+  });
+};
 
 interface Web3DemoProps {
   contractName: string;
@@ -77,19 +74,16 @@ export function Web3Demo({
           const browserProvider = new ethers.BrowserProvider(window.ethereum);
           setProvider(browserProvider);
 
-          // Check network
           const network = await browserProvider.getNetwork();
           setNetwork({
             name: network.name,
             id: Number(network.chainId)
           });
 
-          // Handle network changes
           window.ethereum.on('chainChanged', () => {
             window.location.reload();
           });
 
-          // Handle account changes
           window.ethereum.on('accountsChanged', (accounts: string[]) => {
             if (accounts.length > 0 && isConnected) {
               setUserAddress(accounts[0]);
@@ -131,7 +125,6 @@ export function Web3Demo({
     
     setIsLoading(true);
     try {
-      // Check if we need to switch networks
       if (chainId && network?.id !== chainId) {
         await switchNetwork(chainId);
       }
@@ -141,16 +134,10 @@ export function Web3Demo({
       setSigner(signer);
       setUserAddress(accounts[0]);
       
-      // Convert the ABI to a format compatible with ethers.js
-      const compatibleAbi: CompatibleAbi = abi.map(item => ({
-        ...item,
-        // Ensure any numeric values are converted to strings
-        gas: item.gas?.toString()
-      }));
-      
+      const ethersAbi = convertAbiToEthers(abi);
       const contract = new ethers.Contract(
         contractAddress,
-        compatibleAbi as ethers.InterfaceAbi,
+        ethersAbi,
         signer
       );
       setContract(contract);
@@ -163,7 +150,6 @@ export function Web3Demo({
         description: `Connected to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
       });
       
-      // Setup event listeners
       setupEventListeners(contract);
     } catch (error: any) {
       console.error(error);
@@ -204,7 +190,6 @@ export function Web3Demo({
         id: Number(network.chainId)
       });
     } catch (error: any) {
-      // This error code indicates that the chain has not been added to MetaMask
       if (error.code === 4902) {
         toast({
           title: 'Network Not Found',
@@ -273,7 +258,6 @@ export function Web3Demo({
       console.error(error);
       let errorMessage = error.reason || error.message || 'Transaction failed';
       
-      // Parse common revert reasons
       if (error.info?.error?.data?.message) {
         errorMessage = error.info.error.data.message;
       } else if (error.data?.message) {
