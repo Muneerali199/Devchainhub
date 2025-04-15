@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, Star, GitFork, Activity, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -57,7 +57,42 @@ const mockRepositories: Repository[] = [
     language: 'TypeScript',
     blockchain: 'Optimism',
   },
-  // Add more mock repositories...
+  {
+    id: '3',
+    name: 'solana-program-library',
+    description: 'Collection of Solana programs and examples',
+    stars: 3200,
+    forks: 780,
+    language: 'Rust',
+    blockchain: 'Solana',
+  },
+  {
+    id: '4',
+    name: 'polygon-staking',
+    description: 'Staking contracts for Polygon network',
+    stars: 950,
+    forks: 210,
+    language: 'Solidity',
+    blockchain: 'Polygon',
+  },
+  {
+    id: '5',
+    name: 'ethereum-erc20',
+    description: 'Standard ERC20 token implementation',
+    stars: 4200,
+    forks: 1500,
+    language: 'Solidity',
+    blockchain: 'Ethereum',
+  },
+  {
+    id: '6',
+    name: 'cosmos-sdk-starter',
+    description: 'Template for building Cosmos SDK applications',
+    stars: 680,
+    forks: 190,
+    language: 'Go',
+    blockchain: 'Cosmos',
+  },
 ];
 
 const mockDevelopers: Developer[] = [
@@ -75,12 +110,22 @@ const mockDevelopers: Developer[] = [
     contributions: 987,
     verified: true,
   },
-  // Add more mock developers...
 ];
 
 export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [blockchainFilter, setBlockchainFilter] = useState('all');
+
+  // Filter repositories based on search query and blockchain filter
+  const filteredRepositories = useMemo(() => {
+    return mockRepositories.filter(repo => {
+      const matchesSearch = repo.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          repo.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesBlockchain = blockchainFilter === 'all' || 
+                              repo.blockchain.toLowerCase() === blockchainFilter.toLowerCase();
+      return matchesSearch && matchesBlockchain;
+    });
+  }, [searchQuery, blockchainFilter]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -106,97 +151,145 @@ export default function ExplorePage() {
               <SelectItem value="ethereum">Ethereum</SelectItem>
               <SelectItem value="solana">Solana</SelectItem>
               <SelectItem value="polygon">Polygon</SelectItem>
+              <SelectItem value="cosmos">Cosmos</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </section>
 
-      {/* Trending Repositories */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Trending Repositories</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockRepositories.map((repo) => (
-            <Card key={repo.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg">{repo.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{repo.description}</p>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center">
-                    <Star className="h-4 w-4 mr-1" />
-                    {repo.stars}
-                  </div>
-                  <div className="flex items-center">
-                    <GitFork className="h-4 w-4 mr-1" />
-                    {repo.forks}
-                  </div>
-                  <span className="ml-auto text-sm">{repo.language}</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Developer Leaderboard */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Top Contributors</h2>
-        <div className="bg-card rounded-lg p-6">
-          {mockDevelopers.map((dev) => (
-            <div
-              key={dev.id}
-              className="flex items-center gap-4 py-4 border-b last:border-0"
-            >
-              <img
-                src={dev.avatar}
-                alt={dev.name}
-                className="w-12 h-12 rounded-full"
-              />
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">{dev.name}</span>
-                  {dev.verified && (
-                    <Award className="h-4 w-4 text-primary" />
-                  )}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {dev.contributions} contributions
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* AI Recommendations */}
-      <section>
-        <h2 className="text-2xl font-bold mb-6">Recommended for You</h2>
-        <Carousel className="w-full">
-          <CarouselContent>
-            {mockRepositories.map((repo) => (
-              <CarouselItem key={repo.id} className="md:basis-1/2 lg:basis-1/3">
-                <Card>
+      {/* Search Results */}
+      {searchQuery && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">
+            Search Results for "{searchQuery}"
+          </h2>
+          {filteredRepositories.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredRepositories.map((repo) => (
+                <Card key={repo.id} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <CardTitle className="text-lg">{repo.name}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {repo.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{repo.description}</p>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-4">
-                      <Activity className="h-4 w-4" />
-                      <span className="text-sm">{repo.blockchain}</span>
+                      <div className="flex items-center">
+                        <Star className="h-4 w-4 mr-1" />
+                        {repo.stars}
+                      </div>
+                      <div className="flex items-center">
+                        <GitFork className="h-4 w-4 mr-1" />
+                        {repo.forks}
+                      </div>
+                      <span className="ml-auto text-sm">{repo.language}</span>
+                    </div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      {repo.blockchain}
                     </div>
                   </CardContent>
                 </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">
+                No repositories found matching your search.
+              </p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Trending Repositories (only shown when not searching) */}
+      {!searchQuery && (
+        <>
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">Trending Repositories</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mockRepositories.slice(0, 6).map((repo) => (
+                <Card key={repo.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{repo.name}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{repo.description}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center">
+                        <Star className="h-4 w-4 mr-1" />
+                        {repo.stars}
+                      </div>
+                      <div className="flex items-center">
+                        <GitFork className="h-4 w-4 mr-1" />
+                        {repo.forks}
+                      </div>
+                      <span className="ml-auto text-sm">{repo.language}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Developer Leaderboard */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">Top Contributors</h2>
+            <div className="bg-card rounded-lg p-6">
+              {mockDevelopers.map((dev) => (
+                <div
+                  key={dev.id}
+                  className="flex items-center gap-4 py-4 border-b last:border-0"
+                >
+                  <img
+                    src={dev.avatar}
+                    alt={dev.name}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{dev.name}</span>
+                      {dev.verified && (
+                        <Award className="h-4 w-4 text-primary" />
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {dev.contributions} contributions
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* AI Recommendations */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Recommended for You</h2>
+            <Carousel className="w-full">
+              <CarouselContent>
+                {mockRepositories.map((repo) => (
+                  <CarouselItem key={repo.id} className="md:basis-1/2 lg:basis-1/3">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">{repo.name}</CardTitle>
+                        <p className="text-sm text-muted-foreground">
+                          {repo.description}
+                        </p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center gap-4">
+                          <Activity className="h-4 w-4" />
+                          <span className="text-sm">{repo.blockchain}</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </section>
+        </>
+      )}
     </div>
   );
 }
