@@ -12,9 +12,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './ui/collapsible';
-import { ethers, } from 'ethers';
-import { AbiFunction, } from 'abitype';
-
+import { ethers } from 'ethers';
+import { AbiFunction } from 'abitype';
 import { formatEther } from 'viem';
 
 declare global {
@@ -23,6 +22,23 @@ declare global {
   }
 }
 
+// Define a compatible ABI type that matches ethers.js expectations
+type CompatibleAbi = Array<{
+  type: string;
+  name?: string;
+  inputs?: Array<{
+    name: string;
+    type: string;
+    internalType?: string;
+  }>;
+  outputs?: Array<{
+    name: string;
+    type: string;
+    internalType?: string;
+  }>;
+  stateMutability?: string;
+  anonymous?: boolean;
+}>;
 
 interface Web3DemoProps {
   contractName: string;
@@ -125,9 +141,16 @@ export function Web3Demo({
       setSigner(signer);
       setUserAddress(accounts[0]);
       
+      // Convert the ABI to a format compatible with ethers.js
+      const compatibleAbi: CompatibleAbi = abi.map(item => ({
+        ...item,
+        // Ensure any numeric values are converted to strings
+        gas: item.gas?.toString()
+      }));
+      
       const contract = new ethers.Contract(
         contractAddress,
-        abi,
+        compatibleAbi as ethers.InterfaceAbi,
         signer
       );
       setContract(contract);
@@ -223,10 +246,10 @@ export function Web3Demo({
 
     setIsLoading(true);
     try {
-      const args = method.inputs.map(input => {
+      const args = method.inputs?.map(input => {
         const value = inputValues[`${method.name}_${input.name}`];
         return convertInput(input.type, value);
-      });
+      }) || [];
 
       let result;
       if (method.stateMutability === 'view' || method.stateMutability === 'pure') {
@@ -405,7 +428,7 @@ export function Web3Demo({
                     </div>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="p-4 space-y-4">
-                    {method.inputs.map(input => (
+                    {method.inputs?.map(input => (
                       <div key={`${method.name}_${input.name}`} className="grid gap-2">
                         <Label htmlFor={`${method.name}_${input.name}`}>
                           {input.name} ({input.type})
