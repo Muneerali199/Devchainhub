@@ -17,6 +17,13 @@ import { AbiFunction, } from 'abitype';
 
 import { formatEther } from 'viem';
 
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
+
 interface Web3DemoProps {
   contractName: string;
   contractAddress: string;
