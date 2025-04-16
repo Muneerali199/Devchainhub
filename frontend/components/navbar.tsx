@@ -20,6 +20,7 @@ import {
   Settings,
 } from 'lucide-react';
 import { WalletConnect } from '@/components/wallet-connect';
+import { SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export function Navbar() {
   const { setTheme } = useTheme();
@@ -68,6 +69,30 @@ export function Navbar() {
           </div>
           <div className="flex items-center space-x-2">
             <WalletConnect />
+            
+            <SignedIn>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/dashboard">
+                    Dashboard
+                  </Link>
+                </Button>
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+            
+            <SignedOut>
+              <SignUpButton mode="modal">
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-purple-500/20 transition-all"
+                >
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
