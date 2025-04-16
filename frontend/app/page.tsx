@@ -10,7 +10,7 @@ export default function Home() {
     <WavyBackground className="min-h-screen w-full">
       <div className="flex flex-col">
         {/* Navigation Bar with Auth */}
-       
+    
 
         {/* Hero Section with Wavy Background */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative">
