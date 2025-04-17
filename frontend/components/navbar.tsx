@@ -1,6 +1,6 @@
-// components/navbar.tsx
-  'use client'; 
+'use client';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Search, Sun, Moon, GitBranch } from 'lucide-react';
+import { Search, Moon, GitBranch } from 'lucide-react'; // Removed Sun icon
 import { WalletConnect } from '@/components/wallet-connect';
 import {
   SignUpButton,
@@ -22,6 +22,11 @@ import {
 
 export function Navbar() {
   const { setTheme } = useTheme();
+
+  // Force dark mode on mount
+  useEffect(() => {
+    setTheme('dark');
+  }, [setTheme]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -50,7 +55,7 @@ export function Navbar() {
           <Input
             type="search"
             placeholder="Search repositories..."
-            className="h-9 md:w-[300px] lg:w-[400px]"
+            className="h-9 md:w-[300px] lg:w-[400px] bg-muted text-foreground"
           />
           <Button size="icon" variant="ghost">
             <Search className="h-4 w-4" />
@@ -90,27 +95,10 @@ export function Navbar() {
             </SignUpButton>
           </SignedOut>
 
-          {/* Theme Toggle */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme('light')}>
-                Light
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')}>
-                Dark
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')}>
-                System
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Removed Theme Toggle - Only show Moon icon */}
+          <Button variant="ghost" size="icon" disabled>
+            <Moon className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </header>
