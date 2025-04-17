@@ -4,16 +4,14 @@
         "src": "package.json",
         "use": "@vercel/next",
         "config": {
-            "nodeVersion": "22.x",
+            "nodeVersion": "20.x",
             "installCommand": "npm install --legacy-peer-deps",
-            "buildCommand": "npm run build",
-            "outputDirectory": ".next",
-            "ignoreBuildErrors": false
+            "buildCommand": "npm run build"
         }
     }],
-    "routes": [{
-            "src": "/api/(.*)",
-            "dest": "/api/$1",
+    "rewrites": [{
+            "source": "/api/(.*)",
+            "destination": "/api/$1",
             "headers": {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -21,14 +19,8 @@
             }
         },
         {
-            "src": "/(.*)",
-            "dest": "/$1",
-            "headers": {
-                "X-Frame-Options": "DENY",
-                "X-Content-Type-Options": "nosniff",
-                "Referrer-Policy": "strict-origin-when-cross-origin",
-                "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
-            }
+            "source": "/(.*)",
+            "destination": "/$1"
         }
     ],
     "headers": [{
@@ -44,6 +36,30 @@
                 "key": "Cache-Control",
                 "value": "public, max-age=31536000, immutable"
             }]
+        },
+        {
+            "source": "/(.*)",
+            "headers": [{
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "strict-origin-when-cross-origin"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "camera=(), microphone=(), geolocation=()"
+                },
+                {
+                    "key": "X-DNS-Prefetch-Control",
+                    "value": "on"
+                }
+            ]
         }
     ],
     "env": {
@@ -51,5 +67,6 @@
         "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key"
     },
     "regions": ["iad1"],
-    "public": true
+    "cleanUrls": true,
+    "trailingSlash": false
 }
