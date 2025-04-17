@@ -4,8 +4,8 @@
         "src": "package.json",
         "use": "@vercel/next",
         "config": {
-            "installCommand": "npm install --legacy-peer-deps",
-            "nodeVersion": "18.x"
+            "nodeVersion": "22.x",
+            "installCommand": "npm install --legacy-peer-deps"
         }
     }]
 }
