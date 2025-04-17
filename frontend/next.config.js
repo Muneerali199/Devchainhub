@@ -1,21 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: {
-        serverActions: true, // Simplified to boolean
+        serverActions: true,
         externalDir: true,
-        serverComponentsExternalPackages: ['@supabase/supabase-js'] // Add this for Supabase
+        serverComponentsExternalPackages: ['@supabase/supabase-js']
     },
     eslint: {
         ignoreDuringBuilds: true,
     },
     typescript: {
-        ignoreBuildErrors: false, // Recommended to keep false for production
+        ignoreBuildErrors: false,
     },
-    output: 'standalone', // Recommended for Vercel deployments
+    output: 'standalone',
     images: {
         remotePatterns: [{
             protocol: 'https',
-            hostname: '**', // Allow all external images
+            hostname: '**',
         }, ],
     },
     webpack: (config) => {
@@ -27,7 +27,7 @@ const nextConfig = {
         };
         return config;
     },
-    // Security headers are now handled in vercel.json
+    // Security headers removed here since they're in vercel.json
 };
 
 module.exports = nextConfig;
