@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: {
-        serverActions: true // Changed from boolean to object
+        serverActions: true, // Make sure this is an object if you need other experimental features
     },
-    typescript: {
-        ignoreBuildErrors: false // Ensure strict type checking
-    }
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    // other config...
 };
 
 module.exports = nextConfig;

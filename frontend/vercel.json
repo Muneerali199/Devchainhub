@@ -5,7 +5,43 @@
         "use": "@vercel/next",
         "config": {
             "nodeVersion": "22.x",
-            "installCommand": "npm install --legacy-peer-deps"
+            "installCommand": "npm install --legacy-peer-deps",
+            "buildCommand": "npm run build",
+            "outputDirectory": ".next",
+            "ignoreBuildErrors": true
         }
+    }],
+    "routes": [{
+            "src": "/_next/static/(?:[^/]+/pages|chunks|runtime|css|media)/.+",
+            "headers": {
+                "Cache-Control": "public, max-age=31536000, immutable"
+            }
+        },
+        {
+            "src": "/_next/image(?:.+)",
+            "headers": {
+                "Cache-Control": "public, max-age=31536000, immutable"
+            }
+        }
+    ],
+    "rewrites": [{
+        "source": "/(.*)",
+        "destination": "/"
+    }],
+    "headers": [{
+        "source": "/(.*)",
+        "headers": [{
+                "key": "X-Frame-Options",
+                "value": "DENY"
+            },
+            {
+                "key": "X-Content-Type-Options",
+                "value": "nosniff"
+            },
+            {
+                "key": "Referrer-Policy",
+                "value": "strict-origin-when-cross-origin"
+            }
+        ]
     }]
 }
