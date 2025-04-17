@@ -74,8 +74,8 @@
         }
     ],
     "env": {
-        "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key"
+        "NEXT_PUBLIC_SUPABASE_URL": "https://clxpowfodtcbomwxpmmv.supabase.co",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseHBvd2ZvZHRjYm9td3hwbW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4ODAwMzgsImV4cCI6MjA2MDQ1NjAzOH0.pZs7xV_RPYc9rjtWtFKQmmKzgX4QDU5nhxsU0JDzdYg"
     },
     "regions": ["iad1"],
     "cleanUrls": true,
