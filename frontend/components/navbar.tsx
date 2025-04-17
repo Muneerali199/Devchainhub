@@ -1,5 +1,5 @@
-'use client';
-
+// components/navbar.tsx
+  'use client'; 
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
@@ -22,11 +22,6 @@ import {
 
 export function Navbar() {
   const { setTheme } = useTheme();
-
-  // Construct absolute URLs for reliable redirects
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                 typeof window !== 'undefined' ? window.location.origin : '';
-  const dashboardUrl = `${baseUrl}/dashboard`;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -74,12 +69,7 @@ export function Navbar() {
           </SignedIn>
 
           <SignedOut>
-            <SignInButton 
-              mode="modal"
-              afterSignInUrl={dashboardUrl}
-              afterSignUpUrl={dashboardUrl}
-              redirectUrl={dashboardUrl}
-            >
+            <SignInButton mode="modal">
               <Button
                 variant="outline"
                 size="sm"
@@ -89,11 +79,7 @@ export function Navbar() {
               </Button>
             </SignInButton>
 
-            <SignUpButton
-              mode="modal"
-              afterSignUpUrl={dashboardUrl}
-              redirectUrl={dashboardUrl}
-            >
+            <SignUpButton mode="modal">
               <Button 
                 variant="default" 
                 size="sm"

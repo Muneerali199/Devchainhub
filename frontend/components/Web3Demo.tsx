@@ -13,8 +13,9 @@ import {
   CollapsibleTrigger,
 } from './ui/collapsible';
 import { ethers } from 'ethers';
-import { AbiFunction } from 'abitype';
+import { AbiFunction, AbiEvent } from 'abitype';
 import { formatEther } from 'viem';
+import { Contract } from 'ethers';
 
 declare global {
   interface Window {
@@ -22,13 +23,27 @@ declare global {
   }
 }
 
+
+
+// Enhanced type for ABI items
+type AbiItem = AbiFunction | AbiEvent | {
+  type: string;
+  name?: string;
+  inputs?: Array<{
+    name: string;
+    type: string;
+    internalType?: string;
+  }>;
+  stateMutability?: string;
+};
+
 // Type for ethers-compatible ABI
 type EthersAbi = ReadonlyArray<ethers.Fragment | string | ethers.JsonFragment>;
 
-// Helper function to convert AbiFunction to ethers-compatible ABI
-const convertAbiToEthers = (abi: AbiFunction[]): EthersAbi => {
+// Helper function to convert AbiItem to ethers-compatible ABI
+const convertAbiToEthers = (abi: AbiItem[]): EthersAbi => {
   return abi.map(item => {
-    const converted: any = {...item};
+    const converted: any = { ...item };
     // Convert numeric values to strings
     if (typeof converted.gas === 'number') {
       converted.gas = converted.gas.toString();
@@ -40,13 +55,13 @@ const convertAbiToEthers = (abi: AbiFunction[]): EthersAbi => {
 interface Web3DemoProps {
   contractName: string;
   contractAddress: string;
-  abi: AbiFunction[];
+  abi: AbiItem[];
   className?: string;
   chainId?: number;
 }
 
-export function Web3Demo({ 
-  contractName, 
+export function Web3Demo({
+  contractName,
   contractAddress,
   abi,
   className,
@@ -62,7 +77,7 @@ export function Web3Demo({
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
-  const [network, setNetwork] = useState<{name: string, id: number} | null>(null);
+  const [network, setNetwork] = useState<{ name: string, id: number } | null>(null);
   const [balance, setBalance] = useState<string>('0');
   const [userAddress, setUserAddress] = useState<string>('');
 
@@ -122,7 +137,7 @@ export function Web3Demo({
       });
       return;
     }
-    
+
     setIsLoading(true);
     try {
       if (chainId && network?.id !== chainId) {
@@ -133,7 +148,7 @@ export function Web3Demo({
       const signer = await provider.getSigner();
       setSigner(signer);
       setUserAddress(accounts[0]);
-      
+
       const ethersAbi = convertAbiToEthers(abi);
       const contract = new ethers.Contract(
         contractAddress,
@@ -141,15 +156,15 @@ export function Web3Demo({
         signer
       );
       setContract(contract);
-      
+
       await updateBalance(accounts[0]);
-      
+
       setIsConnected(true);
       toast({
         title: 'Wallet Connected',
         description: `Connected to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
       });
-      
+
       setupEventListeners(contract);
     } catch (error: any) {
       console.error(error);
@@ -178,7 +193,7 @@ export function Web3Demo({
 
   const switchNetwork = async (chainId: number) => {
     if (!provider) return;
-    
+
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -203,7 +218,7 @@ export function Web3Demo({
 
   const setupEventListeners = (contract: ethers.Contract) => {
     abi
-      .filter(item => item.type === 'event')
+      .filter((item): item is AbiEvent => item.type === 'event')
       .forEach(event => {
         contract.on(event.name, (...args: any[]) => {
           const eventString = `${event.name}(${args.map(arg => {
@@ -213,7 +228,7 @@ export function Web3Demo({
               return arg.toString();
             }
           }).join(', ')})`;
-          
+
           setEventLogs(prev => [eventString, ...prev.slice(0, 9)]);
         });
       });
@@ -236,18 +251,35 @@ export function Web3Demo({
         return convertInput(input.type, value);
       }) || [];
 
-      let result;
+      let result:
+        | any
+        | {
+          hash: string;
+          receipt: {
+            blockNumber: number;
+            status: 'success' | 'failed';
+          };
+        };
+
       if (method.stateMutability === 'view' || method.stateMutability === 'pure') {
         result = await contract[method.name](...args);
       } else {
         const tx = await contract[method.name](...args);
-        result = { hash: tx.hash };
+        result = {
+          hash: tx.hash,
+          receipt: {
+            blockNumber: 0,
+            status: 'pending',
+          },
+        };
+
         const receipt = await tx.wait();
         result.receipt = {
           blockNumber: receipt.blockNumber,
-          status: receipt.status === 1 ? 'success' : 'failed'
+          status: receipt.status === 1 ? 'success' : 'failed',
         };
       }
+
 
       setCallResult(result);
       toast({
@@ -257,13 +289,13 @@ export function Web3Demo({
     } catch (error: any) {
       console.error(error);
       let errorMessage = error.reason || error.message || 'Transaction failed';
-      
+
       if (error.info?.error?.data?.message) {
         errorMessage = error.info.error.data.message;
       } else if (error.data?.message) {
         errorMessage = error.data.message;
       }
-      
+
       toast({
         title: 'Error',
         description: errorMessage,
@@ -276,7 +308,7 @@ export function Web3Demo({
 
   const convertInput = (type: string, value: string) => {
     if (!value) return undefined;
-    
+
     try {
       if (type.includes('int')) {
         return BigInt(value);
@@ -297,13 +329,14 @@ export function Web3Demo({
     }
   };
 
-  const handleInputChange = (methodName: string, inputName: string, value: string) => {
+  const handleInputChange = (methodName: string, inputName: string | undefined, value: string) => {
+    if (!inputName) return; // Skip if no name
+    
     setInputValues(prev => ({
       ...prev,
       [`${methodName}_${inputName}`]: value,
     }));
   };
-
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast({
@@ -351,18 +384,18 @@ export function Web3Demo({
         </div>
         <div className="flex gap-2">
           {isConnected && (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={handleDisconnect}
               disabled={isLoading}
             >
               Disconnect
             </Button>
           )}
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={viewOnExplorer}
             className="gap-1"
           >
@@ -392,14 +425,14 @@ export function Web3Demo({
         <Tabs value={activeTab} onValueChange={setActiveTab} className="p-4">
           <TabsList>
             <TabsTrigger value="methods">Methods</TabsTrigger>
-            {abi.some(item => item.type === 'event') && (
+            {abi.some((item): item is AbiEvent => item.type === 'event') && (
               <TabsTrigger value="events">Events</TabsTrigger>
             )}
           </TabsList>
 
           <TabsContent value="methods" className="mt-4 space-y-4">
             {abi
-              .filter(item => item.type === 'function')
+              .filter((item): item is AbiFunction => item.type === 'function')
               .map(method => (
                 <Collapsible key={method.name} className="border rounded-lg">
                   <CollapsibleTrigger className="w-full p-3 flex justify-between items-center">
@@ -412,19 +445,22 @@ export function Web3Demo({
                     </div>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="p-4 space-y-4">
-                    {method.inputs?.map(input => (
-                      <div key={`${method.name}_${input.name}`} className="grid gap-2">
-                        <Label htmlFor={`${method.name}_${input.name}`}>
-                          {input.name} ({input.type})
-                        </Label>
-                        <Input
-                          id={`${method.name}_${input.name}`}
-                          placeholder={`Enter ${input.type} value`}
-                          value={inputValues[`${method.name}_${input.name}`] || ''}
-                          onChange={e => handleInputChange(method.name, input.name, e.target.value)}
-                        />
-                      </div>
-                    ))}
+                    {method.inputs?.map((input, index) => {
+                      const inputName = input.name || `input_${index}`;
+                      return (
+                        <div key={`${method.name}_${inputName}`} className="grid gap-2">
+                          <Label htmlFor={`${method.name}_${inputName}`}>
+                            {inputName} ({input.type})
+                          </Label>
+                          <Input
+                            id={`${method.name}_${inputName}`}
+                            placeholder={`Enter ${input.type} value`}
+                            value={inputValues[`${method.name}_${inputName}`] || ''}
+                            onChange={e => handleInputChange(method.name, inputName, e.target.value)}
+                          />
+                        </div>
+                      );
+                    })}
 
                     <Button
                       onClick={() => handleMethodCall(method)}
@@ -437,8 +473,8 @@ export function Web3Demo({
                           Executing...
                         </>
                       ) : (
-                        method.stateMutability === 'view' || method.stateMutability === 'pure' 
-                          ? 'Call' 
+                        method.stateMutability === 'view' || method.stateMutability === 'pure'
+                          ? 'Call'
                           : 'Send Transaction'
                       )}
                     </Button>
@@ -450,9 +486,9 @@ export function Web3Demo({
               <div className="mt-4 p-4 bg-muted/50 rounded-lg">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="font-medium">Result:</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => copyToClipboard(JSON.stringify(callResult, null, 2))}
                   >
                     <Copy className="h-3 w-3 mr-1" />
@@ -466,24 +502,24 @@ export function Web3Demo({
             )}
           </TabsContent>
 
-          {abi.some(item => item.type === 'event') && (
+          {abi.some((item): item is AbiEvent => item.type === 'event') && (
             <TabsContent value="events" className="mt-4">
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <h4 className="font-medium">Event Logs</h4>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => copyToClipboard(eventLogs.join('\n\n'))}
                       disabled={eventLogs.length === 0}
                     >
                       <Copy className="h-3 w-3 mr-1" />
                       Copy All
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => setEventLogs([])}
                       disabled={eventLogs.length === 0}
                     >
