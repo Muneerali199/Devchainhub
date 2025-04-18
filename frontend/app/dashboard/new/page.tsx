@@ -28,11 +28,10 @@ export default function NewProjectPage() {
   const [readme, setReadme] = useState('# Project Description\n\n## Overview\n\n## Features\n\n## Smart Contracts\n\n## Deployment')
 
   const handleCreate = () => {
-    // Simulate saving to DB or API
-    console.log({ name, chain, description, isPrivate, readme })
-    router.push(`/projects/${name.toLowerCase().replace(/\s+/g, '-')}`)
+    // In a real app, you would save to your backend here
+    const projectSlug = name.toLowerCase().replace(/\s+/g, '-')
+    router.push(`/dashboard/${projectSlug}`)
   }
-
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       <div className="space-y-2">
