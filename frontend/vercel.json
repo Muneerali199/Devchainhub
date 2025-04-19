@@ -30,7 +30,11 @@
                 },
                 {
                     "key": "Access-Control-Allow-Headers",
-                    "value": "X-Requested-With, Content-Type, Authorization"
+                    "value": "X-Requested-With, Content-Type, Authorization, X-CSRF-Token"
+                },
+                {
+                    "key": "Access-Control-Allow-Credentials",
+                    "value": "true"
                 }
             ]
         },
@@ -44,9 +48,14 @@
         {
             "source": "/_next/image(.*)",
             "headers": [{
-                "key": "Cache-Control",
-                "value": "public, max-age=31536000, immutable"
-            }]
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https://*.clerk.accounts.dev https://clxpowfodtcbomwxpmmv.supabase.co; frame-src https://*.clerk.accounts.dev;"
+                }
+            ]
         },
         {
             "source": "/(.*)",
@@ -64,20 +73,35 @@
                 },
                 {
                     "key": "Permissions-Policy",
-                    "value": "camera=(), microphone=(), geolocation=()"
+                    "value": "camera=(), microphone=(), geolocation=(), payment=()"
                 },
                 {
                     "key": "X-DNS-Prefetch-Control",
                     "value": "on"
+                },
+                {
+                    "key": "Strict-Transport-Security",
+                    "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https://*.clerk.accounts.dev https://clxpowfodtcbomwxpmmv.supabase.co; frame-src https://*.clerk.accounts.dev;"
                 }
             ]
         }
     ],
     "env": {
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@clerk_publishable_key",
+        "CLERK_SECRET_KEY": "@clerk_secret_key",
         "NEXT_PUBLIC_SUPABASE_URL": "https://clxpowfodtcbomwxpmmv.supabase.co",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseHBvd2ZvZHRjYm9td3hwbW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4ODAwMzgsImV4cCI6MjA2MDQ1NjAzOH0.pZs7xV_RPYc9rjtWtFKQmmKzgX4QDU5nhxsU0JDzdYg"
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseHBvd2ZvZHRjYm9td3hwbW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4ODAwMzgsImV4cCI6MjA2MDQ1NjAzOH0.pZs7xV_RPYc9rjtWtFKQmmKzgX4QDU5nhxsU0JDzdYg",
+        "SUPABASE_JWT_SECRET": "@supabase_jwt_secret",
+        "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+        "NEXTAUTH_URL": "https://your-production-url.com",
+        "NEXTAUTH_SECRET": "@nextauth_secret"
     },
     "regions": ["iad1"],
     "cleanUrls": true,
-    "trailingSlash": false
+    "trailingSlash": false,
+    "framework": "nextjs"
 }
