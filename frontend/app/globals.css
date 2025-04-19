@@ -1,3 +1,5 @@
+/* global.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +16,44 @@
         --background-end-rgb: 0, 0, 0;
     }
 }
+
+
+/* ======================== */
+
+
+/* 3D TRANSFORM FIXES */
+
+
+/* ======================== */
+
+html,
+body,
+#__next {
+    overflow-x: hidden;
+    overflow-y: visible !important;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    contain: layout style paint;
+    min-height: 100vh;
+}
+
+
+/* Force 3D context */
+
+.three-d-container {
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    overflow: visible !important;
+}
+
+
+/* ======================== */
+
+
+/* TAILWIND LAYER EXTENSIONS */
+
+
+/* ======================== */
 
 @layer base {
      :root {
@@ -69,13 +109,137 @@
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
-}
-
-@layer base {
     * {
         @apply border-border;
     }
     body {
         @apply bg-background text-foreground;
+        overflow: visible !important;
+        transform-style: preserve-3d;
+    }
+}
+
+
+/* ======================== */
+
+
+/* CUSTOM ANIMATIONS */
+
+
+/* ======================== */
+
+@layer utilities {
+    @keyframes scroll-left {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+    @keyframes scroll-right {
+        0% {
+            transform: translateX(-50%);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+    @keyframes beam {
+        0% {
+            opacity: 0;
+            transform: translateY(0) rotate(var(--rotation));
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(100vh) rotate(var(--rotation));
+        }
+    }
+    .animate-scroll-left {
+        animation: scroll-left 30s linear infinite;
+    }
+    .animate-scroll-right {
+        animation: scroll-right 30s linear infinite;
+    }
+    /* 3D Transform Utilities */
+    .preserve-3d {
+        transform-style: preserve-3d;
+    }
+    .backface-visible {
+        backface-visibility: visible;
+    }
+    .overflow-visible-important {
+        overflow: visible !important;
+    }
+    .transform-gpu {
+        transform: translate3d(0, 0, 0);
+    }
+    .force-3d {
+        transform: translateZ(0);
+        will-change: transform;
+    }
+    /* Debugging Utilities */
+    .debug-outline {
+        @apply outline outline-1 outline-red-500;
+    }
+    .debug-outline-child>* {
+        @apply outline outline-1 outline-blue-500;
+    }
+}
+
+
+/* ======================== */
+
+
+/* VORTEX CONTAINER FIXES */
+
+
+/* ======================== */
+
+.vortex-container {
+    overflow: visible !important;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+
+/* ======================== */
+
+
+/* 3D TABS SPECIFIC FIXES */
+
+
+/* ======================== */
+
+.three-d-tabs-container {
+    min-height: 800px;
+    perspective: 2000px;
+    transform-style: preserve-3d;
+    isolation: isolate;
+    z-index: 30;
+}
+
+.three-d-tabs-inner {
+    transform: translateZ(100px);
+    backface-visibility: visible;
+    overflow: visible !important;
+}
+
+
+/* ======================== */
+
+
+/* SAFARI SPECIFIC FIXES */
+
+
+/* ======================== */
+
+@supports (-webkit-touch-callout: none) {
+    .safari-3d-fix {
+        -webkit-transform-style: preserve-3d;
+        -webkit-backface-visibility: visible;
     }
 }

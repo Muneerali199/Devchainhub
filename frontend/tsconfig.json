@@ -21,7 +21,9 @@
     "baseUrl": ".", // Base for path aliases
     "paths": {
       "@/*": ["./*"],
-      "@utils": ["lib/utils"] // Added alias for `utils.ts`
+      "@utils": ["lib/utils"],
+      "@/lib/*": ["lib/*"],
+      "@/components/*": ["components/*"] // Added alias for `utils.ts`
     },
     "types": ["@clerk/nextjs", "node"],
     "forceConsistentCasingInFileNames": true

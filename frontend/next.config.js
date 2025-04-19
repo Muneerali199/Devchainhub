@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: {
-        serverActions: true,
+        // Correct serverActions format
+        serverActions: {
+            enabled: true,
+        },
         externalDir: true,
-        serverComponentsExternalPackages: ['@supabase/supabase-js']
+        // Moved outside experimental block
     },
+    // Server external packages now at root level
+    serverExternalPackages: ['@supabase/supabase-js'],
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -16,7 +21,7 @@ const nextConfig = {
         remotePatterns: [{
             protocol: 'https',
             hostname: '**',
-        }, ],
+        }],
     },
     webpack: (config) => {
         config.resolve.fallback = {
@@ -26,8 +31,7 @@ const nextConfig = {
             os: false,
         };
         return config;
-    },
-    // Security headers removed here since they're in vercel.json
+    }
 };
 
 module.exports = nextConfig;
