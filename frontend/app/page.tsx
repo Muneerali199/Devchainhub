@@ -197,7 +197,7 @@ const ProductShowcase = ({ products }: { products: Product[] }) => {
       <Meteors number={15} />
       <div className="container mx-auto px-4 md:px-6">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
-          Our Products
+          ALL IN ONE WEB3 TOOLKIT
         </h2>
         <p className="max-w-3xl mx-auto text-center text-lg text-zinc-300 mb-16">
           Explore our suite of tools designed to empower Web3 developers and teams.
@@ -528,7 +528,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black overflow-x-hidden">
       <Head>
-        <title>DevChainHub - Web3 Development Platform</title>
+        <title>Devchainhub - Web3 Development Platform</title>
         <meta name="description" content="DevChainHub is the complete platform for building, testing, and deploying decentralized applications across multiple blockchain networks." />
         <meta property="og:title" content="DevChainHub - Web3 Development Platform" />
         <meta property="og:description" content="Build secure blockchain applications with DevChainHub's suite of tools for smart contracts, multi-chain deployment, and more." />
@@ -768,7 +768,7 @@ export default function Home() {
             <div className="col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <Sparkles className="h-6 w-6 text-purple-500" />
-                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">DevChainHub</span>
+                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">DEVCHAINHUB</span>
               </div>
               <p className="text-zinc-300 mb-6">
                 The complete platform for blockchain development and deployment.

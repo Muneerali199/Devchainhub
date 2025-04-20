@@ -21,12 +21,39 @@ import {
 } from 'framer-motion';
 import { Moon, Menu, X, Sparkles } from 'lucide-react';
 
-// Logo with only Sparkles
+// Updated Logo with 3D Brand Name
 const SparklesLogo = ({ className }: { className?: string }) => {
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative flex items-center space-x-2 ${className}`}>
+      {/* Sparkles Icon */}
       <Sparkles className="h-9 w-9 text-purple-500 animate-pulse" />
-      <div className="absolute -inset-2 bg-purple-500/20 blur-xl rounded-full" />
+      {/* 3D Brand Name */}
+      <div className="relative">
+        <span
+          className="text-2xl font-bold text-white tracking-tight"
+          style={{
+            transform: 'perspective(500px) rotateX(25deg) rotateY(-10deg)',
+            textShadow:
+              '0 2px 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.1)',
+            transition: 'transform 0.3s ease, text-shadow 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform =
+              'perspective(500px) rotateX(15deg) rotateY(5deg)';
+            e.currentTarget.style.textShadow =
+              '0 3px 6px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform =
+              'perspective(500px) rotateX(25deg) rotateY(-10deg)';
+            e.currentTarget.style.textShadow =
+              '0 2px 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2), 0 6px 12px rgba(0,0,0,0.1)';
+          }}
+        >
+          Devchainhub
+        </span>
+        <div className="absolute -inset-2 bg-purple-500/20 blur-xl rounded-full" />
+      </div>
     </div>
   );
 };
@@ -40,9 +67,9 @@ export function Navbar() {
   const { setTheme } = useTheme();
 
   const navItems = [
-    { name: "Explore", link: "/explore" },
-    { name: "Docs", link: "/docs" },
-    { name: "Marketplace", link: "/marketplace" }
+    { name: 'Explore', link: '/explore' },
+    { name: 'Docs', link: '/docs' },
+    { name: 'Marketplace', link: '/marketplace' },
   ];
 
   useEffect(() => {
@@ -59,7 +86,7 @@ export function Navbar() {
         setMobileMenuOpen(false);
       }
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [mobileMenuOpen]);
@@ -77,11 +104,12 @@ export function Navbar() {
       transition={{ type: 'spring', stiffness: 200, damping: 50 }}
       className={cn(
         'sticky top-0 z-50 w-full border-b bg-background/0 transition-all duration-200',
-        visible && 'bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60'
+        visible &&
+          'bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60'
       )}
     >
       {/* Desktop Navbar */}
-      <motion.div 
+      <motion.div
         className="container hidden lg:flex h-16 items-center justify-between"
         animate={{
           width: visible ? '90%' : '100%',
@@ -93,19 +121,19 @@ export function Navbar() {
           damping: 50,
         }}
       >
-        {/* Logo - Only Sparkles */}
+        {/* Logo with 3D Brand Name */}
         <Link href="/" className="flex items-center space-x-2 z-20">
-          <SparklesLogo className="h-9 w-9" />
+          <SparklesLogo className="h-9 w-auto" />
           <span className="sr-only">Home</span>
         </Link>
 
         {/* Nav Items */}
-        <div 
+        <div
           className="absolute inset-0 flex items-center justify-center space-x-2 text-sm font-medium"
           onMouseLeave={() => setHoveredItem(null)}
         >
           {navItems.map((item, idx) => (
-            <Link 
+            <Link
               key={`nav-${idx}`}
               href={item.link}
               className="relative px-4 py-2 text-neutral-300 hover:text-neutral-100 transition-colors duration-200"
@@ -123,7 +151,7 @@ export function Navbar() {
               <span className="relative z-20 flex items-center">
                 {item.name}
                 {hoveredItem === idx && (
-                  <motion.span 
+                  <motion.span
                     className="ml-1.5 inline-block"
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -142,9 +170,9 @@ export function Navbar() {
           <WalletConnect />
 
           <SignedIn>
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               asChild
               className="relative overflow-hidden group"
             >
@@ -158,8 +186,8 @@ export function Navbar() {
 
           <SignedOut>
             <SignInButton mode="modal">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 className="bg-transparent border-neutral-700 hover:bg-neutral-800/50 text-white hover:text-white relative overflow-hidden group"
               >
@@ -168,8 +196,8 @@ export function Navbar() {
               </Button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <Button 
-                variant="default" 
+              <Button
+                variant="default"
                 size="sm"
                 className="relative overflow-hidden group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
               >
@@ -180,9 +208,9 @@ export function Navbar() {
             </SignUpButton>
           </SignedOut>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="hover:bg-neutral-800/50"
             aria-label="Theme (dark mode)"
           >
@@ -192,7 +220,7 @@ export function Navbar() {
       </motion.div>
 
       {/* Mobile Navbar */}
-      <motion.div 
+      <motion.div
         className="container flex lg:hidden h-14 items-center justify-between"
         animate={{
           width: visible ? '90%' : '100%',
@@ -205,18 +233,18 @@ export function Navbar() {
         }}
       >
         <Link href="/" className="flex items-center space-x-2">
-          <SparklesLogo className="h-8 w-8" />
+          <SparklesLogo className="h-8 w-auto" />
         </Link>
 
         <div className="flex items-center space-x-3">
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="flex lg:hidden hover:bg-neutral-800/50" 
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="flex lg:hidden hover:bg-neutral-800/50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={mobileMenuOpen}
@@ -229,7 +257,7 @@ export function Navbar() {
           </Button>
         </div>
       </motion.div>
-      
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -252,36 +280,36 @@ export function Navbar() {
                   </Link>
                 ))}
               </nav>
-              
+
               <div className="space-y-4">
                 <div className="flex flex-col space-y-3">
                   <WalletConnect />
-                  
+
                   <SignedIn>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      asChild 
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
                       className="w-full justify-center hover:bg-neutral-800/50"
                     >
                       <Link href="/dashboard">Dashboard</Link>
                     </Button>
                   </SignedIn>
-                  
+
                   <SignedOut>
                     <div className="flex flex-col space-y-3 w-full">
                       <SignInButton mode="modal">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
+                        <Button
+                          variant="outline"
+                          size="sm"
                           className="w-full bg-transparent border-neutral-700 hover:bg-neutral-800/50 text-white hover:text-white"
                         >
                           Sign In
                         </Button>
                       </SignInButton>
                       <SignUpButton mode="modal">
-                        <Button 
-                          variant="default" 
+                        <Button
+                          variant="default"
                           size="sm"
                           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
                         >
