@@ -529,9 +529,9 @@ export default function Home() {
     <div className="min-h-screen bg-black overflow-x-hidden">
       <Head>
         <title>Devchainhub - Web3 Development Platform</title>
-        <meta name="description" content="DevChainHub is the complete platform for building, testing, and deploying decentralized applications across multiple blockchain networks." />
-        <meta property="og:title" content="DevChainHub - Web3 Development Platform" />
-        <meta property="og:description" content="Build secure blockchain applications with DevChainHub's suite of tools for smart contracts, multi-chain deployment, and more." />
+        <meta name="description" content="Devchainhub is the complete platform for building, testing, and deploying decentralized applications across multiple blockchain networks." />
+        <meta property="og:title" content="Devchainhub - Web3 Development Platform" />
+        <meta property="og:description" content="Build secure blockchain applications with DEVCHAINHUB's suite of tools for smart contracts, multi-chain deployment, and more." />
         <meta property="og:image" content="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=1200&auto=format&fit=crop" />
         <meta property="og:url" content="https://www.devchainhub.com" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -584,7 +584,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="relative flex items-center gap-2 text-white">
                       <Rocket className="w-5 h-5 group-hover:animate-pulse" />
-                      Start Building Free
+                      Get Started
                     </div>
                   </Button>
                 </SignUpButton>
@@ -876,7 +876,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-zinc-800 text-center text-zinc-400 text-sm">
-            © {new Date().getFullYear()} DevChainHub. All rights reserved.
+            © {new Date().getFullYear()} Devchainhub. All rights reserved.
           </div>
         </div>
       </footer>
