@@ -7,9 +7,12 @@ import { Button } from '@/components/ui/button'
 import { Copy, ExternalLink } from 'lucide-react'
 
 export default function ContractsPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+const projectName = Array.isArray(project) ? project[0] : project;
+
+// Safely handle undefined projectName
+const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project'; // Fallback if undefined
+
 
   const contracts = [
     { 

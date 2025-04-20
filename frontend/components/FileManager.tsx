@@ -4,7 +4,7 @@ import { useState, useCallback, ChangeEvent } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { File, Folder, Upload, Save, Trash2, Copy } from 'lucide-react'
+import { Pencil, File, Folder, Upload, Save, Trash2, Copy } from 'lucide-react'
 
 interface ProjectFile {
   name: string
@@ -27,7 +27,7 @@ export function FileManager({ initialFiles = [] }: { initialFiles: ProjectFile[]
     if (!filesToUpload || filesToUpload.length === 0) return
 
     setIsUploading(true)
-    
+
     try {
       const formData = new FormData()
       Array.from(filesToUpload).forEach(file => {
@@ -84,11 +84,11 @@ export function FileManager({ initialFiles = [] }: { initialFiles: ProjectFile[]
         throw new Error(result.error || 'Failed to save file')
       }
 
-      setFiles(prev => prev.map(f => 
+      setFiles(prev => prev.map(f =>
         f.path === editingFile.path ? { ...f, content: fileContent } : f
       ))
       setEditingFile(null)
-      
+
       toast({
         title: "File saved",
         description: `${editingFile.name} updated successfully`,
@@ -109,7 +109,7 @@ export function FileManager({ initialFiles = [] }: { initialFiles: ProjectFile[]
     try {
       // In a real app, you would call your delete API here
       setFiles(prev => prev.filter(f => f.path !== file.path))
-      
+
       toast({
         title: "File deleted",
         description: `${file.name} has been removed`,
@@ -123,8 +123,8 @@ export function FileManager({ initialFiles = [] }: { initialFiles: ProjectFile[]
     }
   }, [toast])
 
-  const filteredFiles = files.filter(file => 
-    file.path.startsWith(currentPath) && 
+  const filteredFiles = files.filter(file =>
+    file.path.startsWith(currentPath) &&
     file.path.replace(currentPath, '').split('/').filter(Boolean).length <= 1
   )
 
@@ -180,19 +180,22 @@ export function FileManager({ initialFiles = [] }: { initialFiles: ProjectFile[]
                 <span>{file.name}</span>
               </div>
               <div className="flex gap-2">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  onClick={() => {
-                    setEditingFile(file)
-                    setFileContent(file.content || '')
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8" // Added consistent sizing
+                  onClick={(e) => {
+                    e.stopPropagation(); // Added to prevent event bubbling
+                    setEditingFile(file);
+                    setFileContent(file.content || '');
                   }}
+                  aria-label="Edit file" // Added for accessibility
                 >
                   <Pencil className="w-4 h-4" />
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="text-destructive hover:text-destructive"
                   onClick={() => deleteFile(file)}
                 >

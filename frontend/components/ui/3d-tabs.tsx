@@ -11,7 +11,23 @@ interface Tab {
   content: React.ReactNode;
 }
 
-export function ThreeDTabs() {
+interface ThreeDTabsProps {
+  containerClassName?: string;
+  tabClassName?: string;
+  activeTabClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+  contentClassName?: string;
+}
+
+export function ThreeDTabs({
+  containerClassName = '',
+  tabClassName = '',
+  activeTabClassName = '',
+  titleClassName = 'text-zinc-200 group-hover:text-white',
+  descriptionClassName = 'text-zinc-400 group-hover:text-zinc-300',
+  contentClassName = '',
+}: ThreeDTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
   const [hoveredTab, setHoveredTab] = useState<number | null>(null);
   
@@ -21,7 +37,7 @@ export function ThreeDTabs() {
       label: 'Smart Contracts',
       icon: <Code className="w-4 h-4" />,
       content: (
-        <div className="relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d">
+        <div className={`relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d ${contentClassName}`}>
           {/* MacBook Window Chrome */}
           <div className="absolute top-0 left-0 right-0 h-8 bg-zinc-800 rounded-t-lg flex items-center px-3 z-20">
             <div className="flex space-x-2">
@@ -79,7 +95,7 @@ export function ThreeDTabs() {
                     <div className="pl-4"><span className="text-[#79c0ff]">uint8</span> <span className="text-[#79c0ff]">public</span> decimals = <span className="text-[#a5d6ff]">18</span>;</div>
                     <div className="pl-4"><span className="text-[#79c0ff]">uint256</span> <span className="text-[#79c0ff]">public</span> totalSupply;</div>
                     <div className="h-5"></div>
-                    <div className="pl-4"><span className="text-[#79c0ff]">mapping</span>(address => uint256) <span className="text-[#79c0ff]">public</span> balanceOf;</div>
+                    <div className="pl-4"><span className="text-[#79c0ff]">mapping</span>(address =&gt; uint256) <span className="text-[#79c0ff]">public</span> balanceOf;</div>
                     <div className="h-5"></div>
                     <div className="pl-4"><span className="text-[#79c0ff]">event</span> Transfer({'{'}</div>
                     <div className="pl-8">address <span className="text-[#79c0ff]">indexed</span> from,</div>
@@ -111,7 +127,7 @@ export function ThreeDTabs() {
       label: 'Deployment',
       icon: <Rocket className="w-4 h-4" />,
       content: (
-        <div className="relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d">
+        <div className={`relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d ${contentClassName}`}>
           {/* MacBook Window Chrome */}
           <div className="absolute top-0 left-0 right-0 h-8 bg-zinc-800 rounded-t-lg flex items-center px-3 z-20">
             <div className="flex space-x-2">
@@ -174,7 +190,7 @@ export function ThreeDTabs() {
       label: 'Security',
       icon: <Shield className="w-4 h-4" />,
       content: (
-        <div className="relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d">
+        <div className={`relative h-[500px] w-full overflow-hidden rounded-lg bg-[#0d1117] border border-zinc-800 shadow-2xl transform-style-preserve-3d ${contentClassName}`}>
           {/* MacBook Window Chrome */}
           <div className="absolute top-0 left-0 right-0 h-8 bg-zinc-800 rounded-t-lg flex items-center px-3 z-20">
             <div className="flex space-x-2">
@@ -248,7 +264,7 @@ export function ThreeDTabs() {
   ];
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
+    <div className={cn("w-full max-w-6xl mx-auto", containerClassName)}>
       {/* MacBook Frame */}
       <div className="relative">
         {/* Screen Bezel */}
@@ -270,9 +286,8 @@ export function ThreeDTabs() {
                   onMouseLeave={() => setHoveredTab(null)}
                   className={cn(
                     "relative px-4 py-2 text-xs font-medium transition-all duration-200 flex items-center",
-                    activeTab === index
-                      ? "text-white bg-[#0d1117]"
-                      : "text-zinc-400 hover:text-white hover:bg-[#0d1117]/50"
+                    tabClassName,
+                    activeTab === index && activeTabClassName
                   )}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -289,7 +304,7 @@ export function ThreeDTabs() {
                       />
                     )}
                   </AnimatePresence>
-                  <div className="relative z-10 flex items-center gap-2">
+                  <div className={cn("relative z-10 flex items-center gap-2", titleClassName)}>
                     {tab.icon}
                     <span>{tab.label}</span>
                   </div>

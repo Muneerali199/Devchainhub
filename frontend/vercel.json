@@ -91,14 +91,14 @@
         }
     ],
     "env": {
-        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@clerk_publishable_key",
-        "CLERK_SECRET_KEY": "@clerk_secret_key",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_Y29vbC1hbnRlYXRlci04OC5jbGVyay5hY2NvdW50cy5kZXYk",
+        "CLERK_SECRET_KEY": "sk_test_AUyHx5KKWBuS4CEhUIuD4Bv7mSBfZpdI8bH8sBzxVA",
         "NEXT_PUBLIC_SUPABASE_URL": "https://clxpowfodtcbomwxpmmv.supabase.co",
         "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseHBvd2ZvZHRjYm9td3hwbW12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4ODAwMzgsImV4cCI6MjA2MDQ1NjAzOH0.pZs7xV_RPYc9rjtWtFKQmmKzgX4QDU5nhxsU0JDzdYg",
-        "SUPABASE_JWT_SECRET": "@supabase_jwt_secret",
-        "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
-        "NEXTAUTH_URL": "https://your-production-url.com",
-        "NEXTAUTH_SECRET": "@nextauth_secret"
+        "SUPABASE_JWT_SECRET": "mDGFIStk5B9gGLCTnUep+cm/PkaEz6PHrcmIL1v+c9KF37vSjbxGyiqEKgYeVKk3NVSTtPO9GmuZMJ1q6mJbJw==",
+        "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNseHBvd2ZvZHRjYm9td3hwbW12Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTExNDAyMywiZXhwIjoyMDYwNjkwMDIzfQ.TwEeYzNFEgsb5N7LvulhJZQE1AmCt7v5DLSkoquZtWI",
+        "NEXTAUTH_URL": "https://${VERCEL_URL}",
+        "NEXTAUTH_SECRET": "c41b240091c4b5ac8532b345c7418a1f7dcd18292e7ddc41b89f53147eedea22"
     },
     "regions": ["iad1"],
     "cleanUrls": true,

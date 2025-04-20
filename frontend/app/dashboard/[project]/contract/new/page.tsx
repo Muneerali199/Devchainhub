@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 
 export default function NewContractPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+  const projectName = Array.isArray(project) ? project[0] : project;
+  
+  // Check if projectName is undefined, if so, provide a fallback
+  const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';
+  
 
   return (
     <div className="max-w-4xl mx-auto p-6">

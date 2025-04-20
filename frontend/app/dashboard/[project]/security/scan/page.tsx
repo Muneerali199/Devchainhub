@@ -7,9 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Shield, Check, X, AlertTriangle } from 'lucide-react'
 
 export default function SecurityScanPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+
+// Ensure projectName is defined and handle the case when it's undefined
+const projectName = Array.isArray(project) ? project[0] : project;
+
+// Safely handle undefined projectName by providing a default value
+const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';  // Provide default if undefined
+
 
   const scanResults = [
     { issue: 'Reentrancy vulnerability', severity: 'High', status: 'Not fixed' },

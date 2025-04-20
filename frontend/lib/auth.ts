@@ -1,32 +1,20 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth';
+import NextAuth, { type NextAuthOptions, type DefaultSession } from 'next-auth';
 import { SupabaseAdapter } from '@next-auth/supabase-adapter';
-import { supabase } from './supabase';
 import jwt from 'jsonwebtoken';
-import type { JWT } from 'next-auth/jwt';
 
-// --- Type Augmentation for Session ---
 declare module 'next-auth' {
-  interface Session {
+  interface Session extends DefaultSession {
     supabaseAccessToken?: string;
-    user?: {
+    user: {
       id: string;
       email?: string | null;
       name?: string | null;
-    };
+    } & DefaultSession['user'];
   }
 }
 
-// --- Auth Options Configuration ---
 export const authOptions: NextAuthOptions = {
-  providers: [
-    // Add your providers here, e.g.,
-    /*
-    GithubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
-    }),
-    */
-  ],
+  providers: [],
   adapter: SupabaseAdapter({
     url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -54,36 +42,4 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET!,
 };
 
-// --- JWT Token Verifier ---
-/**
- * Verifies a JWT token from the client
- * @param token - The JWT token to verify
- * @returns The decoded token payload or null if invalid/expired
- */
-export const verifyUser = async (
-  token: string
-): Promise<{ id: string; email?: string | null } | null> => {
-  try {
-    const secret = process.env.SUPABASE_JWT_SECRET;
-    if (!secret) throw new Error('SUPABASE_JWT_SECRET is not set');
-
-    const decoded = jwt.verify(token, secret) as {
-      sub: string;
-      email?: string;
-      exp?: number;
-    };
-
-    if (decoded.exp && Date.now() >= decoded.exp * 1000) return null;
-
-    return {
-      id: decoded.sub,
-      email: decoded.email ?? null,
-    };
-  } catch (error) {
-    console.error('Token verification failed:', error);
-    return null;
-  }
-};
-
-// --- Export for NextAuth API Route ---
 export default NextAuth(authOptions);

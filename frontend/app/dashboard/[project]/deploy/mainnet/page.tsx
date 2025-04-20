@@ -7,10 +7,15 @@ import { Button } from '@/components/ui/button'
 import { HardHat, ChevronDown } from 'lucide-react'
 
 export default function MainnetDeployPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
 
+// Ensure projectName is not undefined
+const projectName = Array.isArray(project) ? project[0] : project;
+
+// Safely handle undefined projectName
+const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';  // Fallback to "Unnamed Project"
+
+  
   const deploymentSteps = [
     { name: 'Compile Contracts', status: 'ready' },
     { name: 'Run Tests', status: 'ready' },

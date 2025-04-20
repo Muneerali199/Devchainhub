@@ -7,9 +7,12 @@ import { Button } from '@/components/ui/button'
 import { Server } from 'lucide-react'
 
 export default function NodesPage() {
-  const { project } = useParams()
+  const { project } = useParams();
+
   const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const displayName = projectName?.replace(/-/g, ' ') ?? 'Unnamed Project'
+  
+
 
   const nodes = [
     { name: 'Mainnet Node', status: 'Online', type: 'Full Node', url: 'https://mainnet.devchainhub.com' },

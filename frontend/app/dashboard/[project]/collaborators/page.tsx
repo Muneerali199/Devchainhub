@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 export default function CollaboratorsPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+  const projectName = Array.isArray(project) ? project[0] : project;
+  const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';
+
+
 
   const collaborators = [
     { name: '0x742d...f44e', role: 'Owner', joined: 'Jan 15, 2023' },

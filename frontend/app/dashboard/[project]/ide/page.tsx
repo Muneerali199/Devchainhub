@@ -7,9 +7,16 @@ import { Button } from '@/components/ui/button'
 import { HardHat } from 'lucide-react'
 
 export default function IDEPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+
+  // Ensure projectName is defined and handle the case when it's undefined
+  const projectName = Array.isArray(project) ? project[0] : project;
+  
+  // Safely handle undefined projectName by providing a default value
+  const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';  // Provide default if undefined
+  
+
+
 
   return (
     <div className="max-w-4xl mx-auto p-6">

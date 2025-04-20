@@ -7,9 +7,16 @@ import { Button } from '@/components/ui/button'
 import { Code, Copy } from 'lucide-react'
 
 export default function ExplorerPage() {
-  const { project } = useParams()
-  const projectName = Array.isArray(project) ? project[0] : project
-  const displayName = projectName.replace(/-/g, ' ')
+  const { project } = useParams();
+
+// Ensure projectName is defined
+const projectName = Array.isArray(project) ? project[0] : project;
+
+// Check if projectName is not undefined or null before calling .replace()
+const displayName = projectName ? projectName.replace(/-/g, ' ') : 'Unnamed Project';  // Default value if undefined
+
+
+
 
   const contracts = [
     { name: 'MyToken', address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e', type: 'ERC20' },

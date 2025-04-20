@@ -284,6 +284,7 @@ const ThreeDTabsWithSkeleton = () => {
                 </div>
               </div>
               
+              
               {/* The 3D tabs component */}
               <div className="p-6">
                 <ThreeDTabs 
@@ -593,6 +594,7 @@ export default function Home() {
               <Link href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">Privacy</Link>
               <Link href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">Terms</Link>
               <Link href="#" className="text-sm text-zinc-400 hover:text-white transition-colors">Cookies</Link>
+              
             </div>
           </div>
         </div>
