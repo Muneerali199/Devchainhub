@@ -17,7 +17,13 @@ import { useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
 import { SignUpButton, SignedIn, SignedOut } from '@clerk/nextjs';
-import { World, GlobeConfig, Position } from '@/components/ui/globe';
+import dynamic from 'next/dynamic';
+import { GlobeConfig, Position } from '@/components/ui/globe';
+
+// Dynamically import World component with SSR disabled
+const World = dynamic(() => import('@/components/ui/globe').then((mod) => mod.World), {
+  ssr: false,
+});
 
 // TypeScript Interfaces
 interface Product {
