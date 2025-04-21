@@ -1,4 +1,3 @@
-
 'use client';
 import { Vortex } from '@/components/ui/vortex';
 import { Button } from '@/components/ui/button';
@@ -193,16 +192,16 @@ const globeConfig: GlobeConfig = {
 // ProductShowcase Component
 const ProductShowcase = ({ products }: { products: Product[] }) => {
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
+    <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
       <Meteors number={15} />
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8 sm:mb-12">
           ALL IN ONE WEB3 TOOLKIT
         </h2>
-        <p className="max-w-3xl mx-auto text-center text-lg text-zinc-300 mb-16">
+        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-zinc-300 mb-8 sm:mb-16">
           Explore our suite of tools designed to empower Web3 developers and teams.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 min-w-0">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -210,11 +209,11 @@ const ProductShowcase = ({ products }: { products: Product[] }) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="relative group rounded-xl overflow-hidden border border-zinc-700 bg-zinc-900/30 backdrop-blur-lg shadow-xl transition-transform duration-300 hover:shadow-2xl hover:shadow-purple-500/20"
+              className="min-w-0 relative group rounded-xl overflow-hidden border border-zinc-700 bg-zinc-900/30 backdrop-blur-fallback shadow-xl transition-transform duration-300 hover:shadow-2xl hover:shadow-purple-500/20"
               style={{ transformStyle: 'preserve-3d' }}
             >
               <div
-                className="relative h-48 w-full transition-transform duration-300 group-hover:-translate-z-2"
+                className="relative h-40 sm:h-48 w-full transition-transform duration-300 group-hover:-translate-z-2"
                 style={{ transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)' }}
               >
                 <Image
@@ -223,12 +222,13 @@ const ProductShowcase = ({ products }: { products: Product[] }) => {
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   quality={80}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/70 to-transparent" />
               </div>
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-semibold text-white mb-2">{product.title}</h3>
+              <div className="p-4 sm:p-6 text-center">
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">{product.title}</h3>
                 <Link
                   href={product.link}
                   className="text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium"
@@ -249,13 +249,13 @@ const ProductShowcase = ({ products }: { products: Product[] }) => {
 // GlobeSection Component
 const GlobeSection = () => {
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
-      <Meteors number={20} />
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
+    <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
+      <Meteors number={15} />
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8 sm:mb-12">
           Global Web3 Connectivity
         </h2>
-        <p className="max-w-3xl mx-auto text-center text-lg text-zinc-300 mb-16">
+        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-zinc-300 mb-8 sm:mb-16">
           Connect and deploy across the globe with our multi-chain infrastructure, powering decentralized applications worldwide.
         </p>
         <motion.div
@@ -263,7 +263,7 @@ const GlobeSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="relative h-[600px] max-w-4xl mx-auto rounded-xl overflow-hidden border border-zinc-700 bg-zinc-900/30 backdrop-blur-lg shadow-2xl shadow-purple-500/20"
+          className="relative h-[400px] sm:h-[500px] md:h-[600px] max-w-4xl mx-auto rounded-xl overflow-hidden border border-zinc-700 bg-zinc-900/30 backdrop-blur-fallback shadow-2xl shadow-purple-500/20"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-pink-900/20" />
           <World globeConfig={globeConfig} data={globeData} />
@@ -286,10 +286,10 @@ const ThreeDTabsWithSkeleton = () => {
   }, []);
 
   return (
-    <div className="relative w-full isolate" style={{ perspective: '2500px', minHeight: '700px', zIndex: 30 }}>
+    <div className="relative w-full isolate" style={{ perspective: '2500px', minHeight: '500px sm:min-height: 700px', zIndex: 30 }}>
       {isLoading ? (
-        <div className="w-full max-w-7xl mx-auto p-6">
-          <div className="rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/50 backdrop-blur-lg">
+        <div className="w-full max-w-7xl mx-auto p-4 sm:p-6">
+          <div className="rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/50 backdrop-blur-fallback">
             <div className="flex border-b border-zinc-800 bg-gradient-to-b from-zinc-900/80 to-zinc-900/30 p-3">
               <div className="flex items-center pl-1">
                 <Skeleton className="h-3 w-3 rounded-full mr-2" />
@@ -303,7 +303,7 @@ const ThreeDTabsWithSkeleton = () => {
                 <Skeleton className="h-3 w-3 rounded-full" />
               </div>
             </div>
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <Skeleton key={i} className="h-12 rounded-lg" />
@@ -325,25 +325,25 @@ const ThreeDTabsWithSkeleton = () => {
           </div>
         </div>
       ) : (
-        <div className="w-full max-w-7xl mx-auto h-full pt-16 pb-32 px-4">
+        <div className="w-full max-w-7xl mx-auto h-full pt-12 sm:pt-16 pb-24 sm:pb-32 px-2 sm:px-4">
           <div className="relative w-full">
-            <div className="rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/50 backdrop-blur-lg shadow-2xl shadow-purple-500/10">
+            <div className="rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/50 backdrop-blur-fallback shadow-2xl shadow-purple-500/10">
               <div className="flex border-b border-zinc-800 bg-gradient-to-b from-zinc-900/80 to-zinc-900/30 p-3">
-                <div className="flex items-center pl-4">
+                <div className="flex items-center pl-2 sm:pl-4">
                   <div className="h-3 w-3 rounded-full bg-red-500 mr-2" />
                   <div className="h-3 w-3 rounded-full bg-yellow-500 mr-2" />
                   <div className="h-3 w-3 rounded-full bg-green-500" />
                 </div>
                 <div className="flex-1 flex justify-center">
-                  <div className="px-6 py-3 text-sm font-medium text-zinc-300 border-b-2 border-purple-500">
+                  <div className="px-4 sm:px-6 py-3 text-sm font-medium text-zinc-300 border-b-2 border-purple-500">
                     SmartContract.sol
                   </div>
                 </div>
-                <div className="pr-4 pt-3">
+                <div className="pr-2 sm:pr-4 pt-3">
                   <div className="h-3 w-3" />
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <ThreeDTabs
                   containerClassName="bg-zinc-900/50"
                   tabClassName="bg-zinc-800 hover:bg-zinc-700/50 data-[state=active]:bg-zinc-700/80 data-[state=active]:border-purple-500/30 transition-all duration-300"
@@ -399,16 +399,16 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-zinc-900/50 to-black relative overflow-hidden">
+    <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-zinc-900/50 to-black relative overflow-hidden">
       <Meteors number={15} />
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8 sm:mb-12">
           Pricing Plans
         </h2>
-        <p className="max-w-3xl mx-auto text-center text-lg text-zinc-300 mb-16">
+        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-zinc-300 mb-8 sm:mb-16">
           Choose the plan that best fits your Web3 development needs.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {plans.map((plan, index) => (
             <motion.div
               key={index}
@@ -416,13 +416,13 @@ const Pricing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className={`relative rounded-xl border ${plan.highlighted ? 'border-purple-500 bg-gradient-to-br from-purple-900/20 to-pink-900/20' : 'border-zinc-800 bg-zinc-900/50'} backdrop-blur-lg p-6`}
+              className={`relative rounded-xl border ${plan.highlighted ? 'border-purple-500 bg-gradient-to-br from-purple-900/20 to-pink-900/20' : 'border-zinc-800 bg-zinc-900/50'} backdrop-blur-fallback p-4 sm:p-6`}
             >
-              <h3 className="text-2xl font-semibold text-white mb-4">{plan.name}</h3>
-              <p className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-6">{plan.price}</p>
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">{plan.name}</h3>
+              <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-6">{plan.price}</p>
               <ul className="space-y-3 mb-6">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-center text-zinc-300">
+                  <li key={i} className="text-responsive flex items-center text-zinc-300">
                     <svg className="h-5 w-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                     </svg>
@@ -431,7 +431,7 @@ const Pricing = () => {
                 ))}
               </ul>
               <Button
-                className={`w-full ${plan.highlighted ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-zinc-800 text-zinc-300'} rounded-full py-3 font-semibold`}
+                className={`w-full ${plan.highlighted ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-zinc-800 text-zinc-300'} rounded-full py-3 font-semibold focus:ring-2 focus:ring-purple-500 focus:outline-none`}
                 aria-label={`Get started with ${plan.name} plan`}
               >
                 Get Started
@@ -467,10 +467,10 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
+    <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
       <Meteors number={15} />
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8 sm:mb-12">
           Frequently Asked Questions
         </h2>
         <div className="max-w-3xl mx-auto">
@@ -481,16 +481,16 @@ const FAQ = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="mb-4 group rounded-xl border border-zinc-700 bg-zinc-900/30 backdrop-blur-lg overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+              className="mb-4 group rounded-xl border border-zinc-700 bg-zinc-900/30 backdrop-blur-fallback overflow-hidden hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
             >
               <button
-                className="w-full flex justify-between items-center p-4 text-left text-white hover:bg-zinc-800/50 transition-colors"
+                className="w-full flex justify-between items-center p-3 sm:p-4 text-left text-white hover:bg-zinc-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 onMouseEnter={() => setOpenIndex(openIndex === null ? index : openIndex)}
                 aria-expanded={openIndex === index}
                 aria-controls={`faq-answer-${index}`}
               >
-                <h3 className="text-xl font-semibold">{faq.question}</h3>
+                <h3 className="text-lg sm:text-xl font-semibold">{faq.question}</h3>
                 <ChevronDown
                   className={`h-5 w-5 text-purple-400 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}
                 />
@@ -503,7 +503,7 @@ const FAQ = () => {
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="p-4 text-zinc-300 bg-gradient-to-b from-zinc-900/50 to-zinc-900/30"
+                    className="p-3 sm:p-4 text-responsive text-zinc-300 bg-gradient-to-b from-zinc-900/50 to-zinc-900/30"
                   >
                     {faq.answer}
                   </motion.div>
@@ -520,6 +520,16 @@ const FAQ = () => {
 // Home Component
 export default function Home() {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleDocsClick = () => {
     router.push('/docs');
@@ -529,21 +539,26 @@ export default function Home() {
     <div className="min-h-screen bg-black overflow-x-hidden">
       <Head>
         <title>Devchainhub - Web3 Development Platform</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Devchainhub is the complete platform for building, testing, and deploying decentralized applications across multiple blockchain networks." />
         <meta property="og:title" content="Devchainhub - Web3 Development Platform" />
         <meta property="og:description" content="Build secure blockchain applications with DEVCHAINHUB's suite of tools for smart contracts, multi-chain deployment, and more." />
         <meta property="og:image" content="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=1200&auto=format&fit=crop" />
         <meta property="og:url" content="https://www.devchainhub.com" />
         <meta name="twitter:card" content="summary_large_image" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="preload" href="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=1200&auto=format&fit=crop" as="image" />
       </Head>
-      <div className="relative h-[100vh] overflow-visible">
+      <div className="relative h-[80vh] sm:h-[100vh] overflow-visible">
         <Vortex
           backgroundColor="black"
-          particleCount={500}
+          particleCount={isMobile ? 200 : 500}
           baseHue={260}
-          className="flex items-center justify-center px-4 md:px-6 overflow-visible"
+          className="flex items-center justify-center px-2 sm:px-4 md:px-6 overflow-visible"
         >
-          <div className="max-w-7xl mx-auto text-center relative z-10 pt-20 overflow-visible">
+          <div className="max-w-7xl mx-auto text-center relative z-10 pt-16 sm:pt-20 overflow-visible">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -551,7 +566,7 @@ export default function Home() {
               className="flex justify-center mb-6"
             >
               <div className="relative">
-                <Sparkles className="h-16 w-16 text-purple-500 animate-pulse" />
+                <Sparkles className="h-12 sm:h-16 w-12 sm:w-16 text-purple-500 animate-pulse" />
                 <div className="absolute -inset-2 bg-purple-500/20 blur-xl rounded-full" />
               </div>
             </motion.div>
@@ -561,9 +576,9 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative"
             >
-              <div className="absolute -inset-x-20 -inset-y-10 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 blur-3xl" />
-              <TypewriterEffectSmooth words={words} className="mb-8" />
-              <p className="relative max-w-3xl mx-auto text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-b from-zinc-200 to-zinc-400 mb-12">
+              <div className="absolute -inset-x-10 sm:-inset-x-20 -inset-y-10 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 blur-3xl" />
+              <TypewriterEffectSmooth words={words} className="mb-6 sm:mb-8 text-2xl sm:text-3xl md:text-4xl lg:text-5xl" />
+              <p className="relative max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-b from-zinc-200 to-zinc-400 mb-8 sm:mb-12">
                 The complete platform for building, testing, and deploying decentralized applications across multiple blockchain networks.
               </p>
             </motion.div>
@@ -577,7 +592,7 @@ export default function Home() {
                 <SignUpButton mode="modal">
                   <Button
                     size="lg"
-                    className="relative group overflow-hidden rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
+                    className="relative group overflow-hidden rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                     aria-label="Start building for free"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 transition-transform group-hover:scale-[1.05]" />
@@ -592,7 +607,7 @@ export default function Home() {
               <SignedIn>
                 <Button
                   size="lg"
-                  className="relative group overflow-hidden rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
+                  className="relative group overflow-hidden rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                   onClick={() => router.push('/dashboard')}
                   aria-label="Go to dashboard"
                 >
@@ -607,7 +622,7 @@ export default function Home() {
               <Button
                 variant="outline"
                 size="lg"
-                className="gap-2 text-white border-zinc-600 hover:bg-zinc-900/50 rounded-full px-8 py-6 text-lg font-semibold backdrop-blur-sm"
+                className="gap-2 text-white border-zinc-600 hover:bg-zinc-900/50 rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold backdrop-blur-fallback focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 onClick={handleDocsClick}
                 aria-label="View documentation"
               >
@@ -618,14 +633,14 @@ export default function Home() {
           </div>
         </Vortex>
       </div>
-      <section className="relative w-full py-32 bg-gradient-to-b from-black via-zinc-900/30 to-black overflow-hidden">
+      <section className="relative w-full py-24 sm:py-32 bg-gradient-to-b from-black via-zinc-900/30 to-black overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop&ixlib=rb-4.0.3&blur=50')] bg-cover opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
         <div className="absolute -top-32 left-1/4 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
         <div className="absolute bottom-32 right-1/4 h-64 w-64 rounded-full bg-pink-500/10 blur-3xl" />
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -639,90 +654,90 @@ export default function Home() {
       </section>
       <GlobeSection />
       <ProductShowcase products={products} />
-      <section className="w-full py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
-        <Meteors number={20} />
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-12">
+      <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-black to-zinc-900/50 relative overflow-hidden">
+        <Meteors number={15} />
+        <div className="container mx-auto px-2 sm:px-4 md:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8 sm:mb-12">
             Enterprise-Grade Web3 Tooling
           </h2>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ThreeDCardDemo
-              icon={<FileCode className="h-10 w-10 text-purple-500" />}
+              icon={<FileCode className="h-8 sm:h-10 w-8 sm:w-10 text-purple-500" />}
               title="Smart Contract Management"
               description="Advanced version control with built-in security analysis and multi-chain deployment."
             />
             <ThreeDCardDemo
-              icon={<Network className="h-10 w-10 text-pink-500" />}
+              icon={<Network className="h-8 sm:h-10 w-8 sm:w-10 text-pink-500" />}
               title="Multi-Chain Deployment"
               description="Deploy to multiple networks simultaneously with advanced orchestration tools."
             />
             <ThreeDCardDemo
-              icon={<ShieldCheck className="h-10 w-10 text-blue-500" />}
+              icon={<ShieldCheck className="h-8 sm:h-10 w-8 sm:w-10 text-blue-500" />}
               title="AI Security Audits"
               description="Automated vulnerability detection with our proprietary AI technology."
             />
           </div>
         </div>
       </section>
-      <section className="w-full py-20 bg-zinc-900/50 relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">
+      <section className="w-full py-12 sm:py-20 bg-zinc-900/50 relative overflow-hidden">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-8 sm:mb-12">
             Supported Technologies
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {[
-              { name: 'Ethereum', icon: <Layers className="w-8 h-8" />, color: 'purple' },
-              { name: 'Polygon', icon: <Database className="w-8 h-8" />, color: 'pink' },
-              { name: 'Solana', icon: <Zap className="w-8 h-8" />, color: 'green' },
-              { name: 'Polkadot', icon: <Globe className="w-8 h-8" />, color: 'blue' },
-              { name: 'Cosmos', icon: <Cpu className="w-8 h-8" />, color: 'orange' },
+              { name: 'Ethereum', icon: <Layers className="w-6 sm:w-8 h-6 sm:h-8" />, color: 'purple' },
+              { name: 'Polygon', icon: <Database className="w-6 sm:w-8 h-6 sm:h-8" />, color: 'pink' },
+              { name: 'Solana', icon: <Zap className="w-6 sm:w-8 h-6 sm:h-8" />, color: 'green' },
+              { name: 'Polkadot', icon: <Globe className="w-6 sm:w-8 h-6 sm:h-8" />, color: 'blue' },
+              { name: 'Cosmos', icon: <Cpu className="w-6 sm:w-8 h-6 sm:h-8" />, color: 'orange' },
             ].map((tech, index) => (
               <GlowingStarsBackgroundCard key={index} color={tech.color as any}>
-                <div className="p-6 flex flex-col items-center">
+                <div className="p-4 sm:p-6 flex flex-col items-center">
                   <div className={`text-${tech.color}-500 mb-4`}>{tech.icon}</div>
-                  <h3 className="font-semibold text-white">{tech.name}</h3>
+                  <h3 className="text-responsive font-semibold text-white">{tech.name}</h3>
                 </div>
               </GlowingStarsBackgroundCard>
             ))}
           </div>
         </div>
       </section>
-      <section className="w-full py-20 bg-black relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">
+      <section className="w-full py-12 sm:py-20 bg-black relative overflow-hidden">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-8 sm:mb-12">
             Trusted by Leading Web3 Teams
           </h2>
-          <InfiniteMovingCards items={testimonials} direction="right" speed="slow" />
+          <InfiniteMovingCards items={testimonials} direction="right" speed={isMobile ? 'fast' : 'slow'} />
         </div>
       </section>
       <Pricing />
       <FAQ />
-      <section className="w-full py-20 bg-gradient-to-b from-zinc-900/50 to-black">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-zinc-900/50 to-black">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div className="flex flex-col items-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">50K+</div>
-              <div className="text-zinc-300">Developers</div>
+              <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">50K+</div>
+              <div className="text-responsive text-zinc-300">Developers</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">12K+</div>
-              <div className="text-zinc-300">Projects</div>
+              <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">12K+</div>
+              <div className="text-responsive text-zinc-300">Projects</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">$4.2B+</div>
-              <div className="text-zinc-300">Value Secured</div>
+              <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">$4.2B+</div>
+              <div className="text-responsive text-zinc-300">Value Secured</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">25+</div>
-              <div className="text-zinc-300">Blockchains</div>
+              <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2">25+</div>
+              <div className="text-responsive text-zinc-300">Blockchains</div>
             </div>
           </div>
         </div>
       </section>
-      <section className="w-full py-32 bg-black relative overflow-hidden">
+      <section className="w-full py-24 sm:py-32 bg-black relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop&ixlib=rb-4.0.3&blur=3')] bg-center opacity-10 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8">
             Ready to Transform Your Web3 Development?
           </h2>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -730,7 +745,7 @@ export default function Home() {
               <SignUpButton mode="modal">
                 <Button
                   size="lg"
-                  className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30"
+                  className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                   aria-label="Start free trial"
                 >
                   <Rocket className="w-5 h-5" />
@@ -741,7 +756,7 @@ export default function Home() {
             <SignedIn>
               <Button
                 size="lg"
-                className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30"
+                className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 onClick={() => router.push('/dashboard')}
                 aria-label="Go to dashboard"
               >
@@ -752,7 +767,7 @@ export default function Home() {
             <Button
               variant="outline"
               size="lg"
-              className="gap-2 text-white border-zinc-600 hover:bg-zinc-900/50 rounded-full px-8 py-6 text-lg font-semibold"
+              className="gap-2 text-white border-zinc-600 hover:bg-zinc-900/50 rounded-full px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold focus:ring-2 focus:ring-purple-500 focus:outline-none"
               onClick={handleDocsClick}
               aria-label="View documentation"
             >
@@ -762,20 +777,20 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="w-full border-t border-zinc-800 bg-black/50 backdrop-blur-lg py-16">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12">
-            <div className="col-span-2">
+      <footer className="w-full border-t border-zinc-800 bg-black/50 backdrop-blur-fallback py-12 sm:py-16">
+        <div className="container mx-auto px-2 sm:px-4 md:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-12">
+            <div className="col-span-1 sm:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <Sparkles className="h-6 w-6 text-purple-500" />
-                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">DEVCHAINHUB</span>
+                <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">DEVCHAINHUB</span>
               </div>
-              <p className="text-zinc-300 mb-6">
+              <p className="text-responsive text-zinc-300 mb-6">
                 The complete platform for blockchain development and deployment.
               </p>
               <div className="flex items-center space-x-4 mb-4">
                 <Mail className="h-5 w-5 text-zinc-400" />
-                <p className="text-zinc-400">Subscribe to our newsletter</p>
+                <p className="text-responsive text-zinc-400">Subscribe to our newsletter</p>
               </div>
               <div className="flex space-x-4">
                 <Link href="https://github.com/devchainhub" className="text-zinc-400 hover:text-white transition-colors" aria-label="GitHub">
@@ -803,22 +818,22 @@ export default function Home() {
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Product</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/products" className="text-zinc-400 hover:text-white transition-colors" aria-label="Explore products">
+                  <Link href="/products" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Explore products">
                     Explore
                   </Link>
                 </li>
                 <li>
-                  <Link href="/marketplace" className="text-zinc-400 hover:text-white transition-colors" aria-label="Marketplace">
+                  <Link href="/marketplace" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Marketplace">
                     Marketplace
                   </Link>
                 </li>
                 <li>
-                  <Link href="/integrations" className="text-zinc-400 hover:text-white transition-colors" aria-label="Integrations">
+                  <Link href="/integrations" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Integrations">
                     Integrations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/changelog" className="text-zinc-400 hover:text-white transition-colors" aria-label="Changelog">
+                  <Link href="/changelog" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Changelog">
                     Changelog
                   </Link>
                 </li>
@@ -828,22 +843,22 @@ export default function Home() {
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Resources</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/docs" className="text-zinc-400 hover:text-white transition-colors" aria-label="Documentation">
+                  <Link href="/docs" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Documentation">
                     Documentation
                   </Link>
                 </li>
                 <li>
-                  <Link href="/guides" className="text-zinc-400 hover:text-white transition-colors" aria-label="Guides">
+                  <Link href="/guides" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Guides">
                     Guides
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="text-zinc-400 hover:text-white transition-colors" aria-label="Blog">
+                  <Link href="/blog" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Blog">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="/webinars" className="text-zinc-400 hover:text-white transition-colors" aria-label="Webinars">
+                  <Link href="/webinars" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Webinars">
                     Webinars
                   </Link>
                 </li>
@@ -853,22 +868,22 @@ export default function Home() {
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Company</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/about" className="text-zinc-400 hover:text-white transition-colors" aria-label="About">
+                  <Link href="/about" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="About">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="/careers" className="text-zinc-400 hover:text-white transition-colors" aria-label="Careers">
+                  <Link href="/careers" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Careers">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link href="/press" className="text-zinc-400 hover:text-white transition-colors" aria-label="Press">
+                  <Link href="/press" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Press">
                     Press
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-zinc-400 hover:text-white transition-colors" aria-label="Contact">
+                  <Link href="/contact" className="text-responsive text-zinc-400 hover:text-white transition-colors" aria-label="Contact">
                     Contact
                   </Link>
                 </li>

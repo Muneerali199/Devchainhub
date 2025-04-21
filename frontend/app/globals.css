@@ -3,17 +3,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ======================== */
+
+
+/* ROOT VARIABLES */
+
+
+/* ======================== */
+
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 255, 255, 255;
+    /* Default to dark mode */
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
      :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
+        --foreground-rgb: 0, 0, 0;
+        --background-start-rgb: 214, 219, 220;
+        --background-end-rgb: 255, 255, 255;
     }
 }
 
@@ -21,69 +31,13 @@
 /* ======================== */
 
 
-/* 3D TRANSFORM FIXES */
-
-
-/* ======================== */
-
-html,
-body,
-#__next {
-    overflow-x: hidden;
-    overflow-y: visible !important;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    contain: layout style paint;
-    min-height: 100vh;
-}
-
-
-/* Force 3D context */
-
-.three-d-container {
-    transform-style: preserve-3d;
-    backface-visibility: visible;
-    overflow: visible !important;
-}
-
-
-/* ======================== */
-
-
-/* TAILWIND LAYER EXTENSIONS */
+/* BASE STYLES */
 
 
 /* ======================== */
 
 @layer base {
      :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-    .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;
         --card: 0 0% 3.9%;
@@ -108,15 +62,47 @@ body,
         --chart-3: 30 80% 55%;
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
+        --radius: 0.5rem;
     }
     * {
         @apply border-border;
     }
-    body {
+    html,
+    body,
+    #__next {
+        overflow-x: hidden;
+        overflow-y: auto;
+        min-height: 100vh;
         @apply bg-background text-foreground;
-        overflow: visible !important;
-        transform-style: preserve-3d;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: clamp(14px, 2.5vw, 16px);
+        /* Responsive base font */
     }
+    /* Improve tap targets for touch devices */
+    button,
+    a,
+    [role="button"] {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+
+/* ======================== */
+
+
+/* 3D TRANSFORM FIXES */
+
+
+/* ======================== */
+
+.three-d-container {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: visible;
 }
 
 
@@ -160,33 +146,43 @@ body,
     }
     .animate-scroll-left {
         animation: scroll-left 30s linear infinite;
+        animation-play-state: running;
     }
     .animate-scroll-right {
         animation: scroll-right 30s linear infinite;
+        animation-play-state: running;
+    }
+    /* Optimize animations for low-end devices */
+    @media (prefers-reduced-motion: reduce) {
+        .animate-scroll-left,
+        .animate-scroll-right,
+        .animate-beam {
+            animation: none;
+        }
     }
     /* 3D Transform Utilities */
     .preserve-3d {
         transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
     }
-    .backface-visible {
-        backface-visibility: visible;
-    }
-    .overflow-visible-important {
-        overflow: visible !important;
+    .backface-hidden {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
     .transform-gpu {
         transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
     }
-    .force-3d {
-        transform: translateZ(0);
-        will-change: transform;
+    /* Responsive typography */
+    .text-responsive {
+        font-size: clamp(1rem, 2.5vw, 1.125rem);
     }
-    /* Debugging Utilities */
-    .debug-outline {
-        @apply outline outline-1 outline-red-500;
-    }
-    .debug-outline-child>* {
-        @apply outline outline-1 outline-blue-500;
+    /* Fallback for backdrop-blur */
+    .backdrop-blur-fallback {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(0, 0, 0, 0.5);
+        /* Fallback for unsupported browsers */
     }
 }
 
@@ -200,9 +196,11 @@ body,
 /* ======================== */
 
 .vortex-container {
-    overflow: visible !important;
+    overflow: visible;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     perspective: 1000px;
+    -webkit-perspective: 1000px;
 }
 
 
@@ -215,24 +213,29 @@ body,
 /* ======================== */
 
 .three-d-tabs-container {
-    min-height: 800px;
+    min-height: clamp(400px, 80vh, 600px);
+    /* Responsive height */
     perspective: 2000px;
+    -webkit-perspective: 2000px;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     isolation: isolate;
     z-index: 30;
 }
 
 .three-d-tabs-inner {
     transform: translateZ(100px);
-    backface-visibility: visible;
-    overflow: visible !important;
+    -webkit-transform: translateZ(100px);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: visible;
 }
 
 
 /* ======================== */
 
 
-/* SAFARI SPECIFIC FIXES */
+/* SAFARI AND CROSS-BROWSER FIXES */
 
 
 /* ======================== */
@@ -240,6 +243,43 @@ body,
 @supports (-webkit-touch-callout: none) {
     .safari-3d-fix {
         -webkit-transform-style: preserve-3d;
-        -webkit-backface-visibility: visible;
+        -webkit-backface-visibility: hidden;
+    }
+}
+
+
+/* Fallback for older browsers */
+
+@supports not (backdrop-filter: blur(16px)) {
+    .backdrop-blur-lg,
+    .backdrop-blur-fallback {
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
+
+
+/* ======================== */
+
+
+/* RESPONSIVE BREAKPOINTS */
+
+
+/* ======================== */
+
+@media (max-width: 320px) {
+    html,
+    body {
+        font-size: 14px;
+    }
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
+@media (min-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }
