@@ -41,9 +41,8 @@
 - Lucide Icons
 
 **Backend**
-- Node.js + Express
-- MongoDB Atlas (Mongoose)
-- IPFS (via `ipfs-http-client`)
+- nextjs
+- supabase
 - Web3.js & Ethers.js
 - JWT, Bcrypt for Auth
 - Multer for File Uploads
