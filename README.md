@@ -57,17 +57,12 @@
 git clone https://github.com/yourusername/devchainhub.git
 cd devchainhub
 
-# Install dependencies for backend
-cd backend
+# Install dependencies 
+cd frontend
 npm install
 
-# Start backend
+# Start application
 npm run dev
 
-# In a new terminal, install frontend dependencies
-cd ../frontend
-npm install
 
-# Start frontend
-npm run dev
 it is an open source platform for blockchain developers .
