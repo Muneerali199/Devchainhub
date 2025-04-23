@@ -2,7 +2,7 @@
 
 **DevChainHub** is an open-source platform designed to empower blockchain developers. From creating and managing Web3 projects to collaborating, sharing, and deploying decentralized applications — DevChainHub is your all-in-one hub for blockchain innovation.
 
-![Banner](https://your-banner-url.com) <!-- Optional: Replace with a project banner -->
+![Banner](https://your-banner-url.com) <!-- Optional: Replace with a project banner --> 
 
 ---
 
